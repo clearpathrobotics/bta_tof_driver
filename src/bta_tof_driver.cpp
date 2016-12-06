@@ -63,9 +63,15 @@ BtaRos::BtaRos(ros::NodeHandle nh_camera,
     {
 	ros::console::notifyLoggerLevelsChanged();
     }*/
+    
+    nh_private_.param<std::string> ( "frame_id_camera", frame_id_camera_, "camera" );
+    nh_private_.param<std::string> ( "frame_id_cloud", frame_id_cloud_, "cloud" );
+    nh_private_.param<std::string> ( "frame_id_amplitudes", frame_id_amplitudes_, "amplitudes" );
+    
+    
     transformStamped.header.stamp = ros::Time::now();
-    transformStamped.header.frame_id = "world";
-    transformStamped.child_frame_id = "cloud";
+    transformStamped.header.frame_id = frame_id_camera_;
+    transformStamped.child_frame_id = frame_id_cloud_;
     transformStamped.transform.translation.x = 0.0;
     transformStamped.transform.translation.y = 0.0;
     transformStamped.transform.translation.z = 0.0;
@@ -302,7 +308,7 @@ void BtaRos::publishData()
 	amp->data.resize(xRes*yRes*getDataSize(amDataFormat));
 	memcpy ( &amp->data[0], amplitudes, xRes*yRes*getDataSize(amDataFormat) );
 
-	amp->header.frame_id = "amplitudes";//nodeName_+"/tof_camera";
+	amp->header.frame_id = frame_id_amplitudes_;//nodeName_+"/tof_camera";
 	pub_amp_.publish(amp,ci_tof);
 	ampOk = true;
     }
@@ -319,7 +325,7 @@ void BtaRos::publishData()
 					      "z", 1, sensor_msgs::PointField::FLOAT32,
 					      "intensity", 1, sensor_msgs::PointField::UINT16);
 	    modifier.resize(_xyz->height * _xyz->width);
-	    _xyz->header.frame_id = "cloud";
+	    _xyz->header.frame_id = frame_id_cloud_;
 	    _xyz->is_dense = true;
 	}
 	//if (_cloud.size() != yRes*xRes) {

@@ -167,6 +167,11 @@ private:
 
     BTA_Handle handle_;
     BTA_Config config_;
+    
+    
+    std::string frame_id_camera_;
+    std::string frame_id_cloud_;
+    std::string frame_id_amplitudes_;
 
     /**
      *

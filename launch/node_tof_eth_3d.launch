@@ -5,12 +5,19 @@
 -->
 <launch>
 
+  <arg name="rviz" default="0" />
+  <arg name="rqt" default="0" />
+  
   <node pkg="bta_tof_driver" type="bta_tof_driver_node" name="bta_tof_driver_1"
         args="" required="true" output="screen" >
         <rosparam command="load" file="$(find bta_tof_driver)/launch/bta_eth_3d.yaml" />
   </node>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bta_tof_driver)/launch/rvizConfig_tof.rviz" />
-  <node name="rqt" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find bta_tof_driver)/launch/bta_tof_driver.perspective"/>
+  <group if="$(arg rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bta_tof_driver)/launch/rvizConfig_tof.rviz" />
+  </group>
+  <group if="$(arg rqt)">
+    <node name="rqt" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find bta_tof_driver)/launch/bta_tof_driver.perspective"/>
+  </group>
   
 </launch>

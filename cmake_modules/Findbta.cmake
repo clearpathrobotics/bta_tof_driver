@@ -9,7 +9,8 @@ message( BTA_P100:  ${BTA_P100} )
 
 FIND_PATH(bta_INCLUDE_DIR NAMES bta.h
  	PATHS
-		/usr/local/include/libbta/
+        ${PROJECT_SOURCE_DIR}/BltTofApi/inc
+	/usr/local/include/libbta/
         /usr/include/libbta/
         ../include/
         ../inc/
@@ -57,6 +58,7 @@ endif()
 	
 find_library(bta_LIBRARY NAMES ${bta_name}
   PATHS
+        ${PROJECT_SOURCE_DIR}/BltTofApi/lib/Lin_x64/
         /usr/lib/
         /usr/local/lib/
 		../windows/lib/${ARCH_DIR}/
