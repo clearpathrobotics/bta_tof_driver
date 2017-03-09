@@ -28,7 +28,7 @@
  *
  * @section intro_sec Introduction
  *
- * This software defines a interface for working with all ToF cameras from 
+ * This software defines a interface for working with all ToF cameras from
  * Bluetechnix GmbH supported by their API.
  *
  * @section install_sec Installation
@@ -43,35 +43,37 @@
 #include <bta_tof_driver/bta_tof_driver.hpp>
 #include <nodelet/nodelet.h>
 
-namespace bta_tof_driver {
+namespace bta_tof_driver
+{
 
-class BtaRosNodelet : public nodelet::Nodelet {
+class BtaRosNodelet : public nodelet::Nodelet
+{
 
 public:
-	 BtaRosNodelet() : 
-	 	nodelet::Nodelet(),
-	 	lp_(NULL),
-	 	stream_thread_(NULL)
-	 {
-	 };
-	 
-	virtual ~BtaRosNodelet() 
-	{
-		stream_thread_->join();
-	};
-	
+  BtaRosNodelet() :
+    nodelet::Nodelet(),
+    lp_(NULL),
+    stream_thread_(NULL)
+  {
+  };
+
+  virtual ~BtaRosNodelet()
+  {
+    stream_thread_->join();
+  };
+
 private:
-	virtual void onInit() 
-	{
-		NODELET_WARN_STREAM("Initializing nodelet..." << getName());
-		
-		lp_.reset(new bta_tof_driver::BtaRos(getNodeHandle(), getPrivateNodeHandle(), getName()));
-		stream_thread_.reset(new boost::thread(boost::bind(&BtaRos::initialize, lp_.get())));
-	};
-		boost::scoped_ptr<bta_tof_driver::BtaRos> lp_;
-		boost::scoped_ptr<boost::thread> stream_thread_;
-	};
-	
+  virtual void onInit()
+  {
+    NODELET_WARN_STREAM("Initializing nodelet..." << getName());
+
+    lp_.reset(new bta_tof_driver::BtaRos(getNodeHandle(), getPrivateNodeHandle(), getName()));
+    stream_thread_.reset(new boost::thread(boost::bind(&BtaRos::initialize, lp_.get())));
+  };
+  boost::scoped_ptr<bta_tof_driver::BtaRos> lp_;
+  boost::scoped_ptr<boost::thread> stream_thread_;
+};
+
 }
 #include <pluginlib/class_list_macros.h>
 PLUGINLIB_EXPORT_CLASS(bta_tof_driver::BtaRosNodelet, nodelet::Nodelet);

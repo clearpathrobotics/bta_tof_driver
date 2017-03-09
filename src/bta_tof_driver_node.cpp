@@ -28,7 +28,7 @@
  *
  * @section intro_sec Introduction
  *
- * This software defines a interface for working with all ToF cameras from 
+ * This software defines a interface for working with all ToF cameras from
  * Bluetechnix GmbH supported by their API.
  *
  * @section install_sec Installation
@@ -41,7 +41,7 @@
  */
 
 #include <bta_tof_driver/bta_tof_driver.hpp>
-	
+
 /**
  *
  * @brief Main function
@@ -50,16 +50,17 @@
  * @param [in] char *
  *
  */
-int main(int argc, char *argv[]) {
-	ROS_INFO("Starting bta_tof_driver...");
-	ros::init (argc, argv, "bta_tof_driver");
-	ros::NodeHandle nh, nh_private("~");
-		
-	bta_tof_driver::BtaRos camera(nh, nh_private,ros::this_node::getName());
+int main(int argc, char *argv[])
+{
+  ROS_INFO("Starting bta_tof_driver...");
+  ros::init(argc, argv, "bta_tof_driver");
+  ros::NodeHandle nh, nh_private("~");
 
-	camera.initialize();
+  bta_tof_driver::BtaRos camera(nh, nh_private, ros::this_node::getName());
 
-	return 0;
+  camera.initialize();
+
+  return 0;
 }
 
 

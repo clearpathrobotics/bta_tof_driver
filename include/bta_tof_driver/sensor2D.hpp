@@ -28,7 +28,7 @@
  *
  * @section intro_sec Introduction
  *
- * This software defines a interface for working with all ToF cameras from 
+ * This software defines a interface for working with all ToF cameras from
  * Bluetechnix GmbH supported by their API.
  *
  * @section install_sec Installation
@@ -65,36 +65,37 @@
 
 #include <ros/console.h>
 
-namespace bta_tof_driver {
+namespace bta_tof_driver
+{
 
-	class Sensor2D
-	{
-		ros::NodeHandle nh_, nh_private_;
-		std::string nodeName_;
-		camera_info_manager::CameraInfoManager cim_rgb_;
-		image_transport::ImageTransport it_;
-		image_transport::CameraPublisher pub_rgb_;	
-	
-		std::string address_;
-	
-		GstElement *pipeline_;
-		GstElement *appsink;
-		GMainLoop *loop;
-	
-		//boost::thread* streaming;
+class Sensor2D
+{
+  ros::NodeHandle nh_, nh_private_;
+  std::string nodeName_;
+  camera_info_manager::CameraInfoManager cim_rgb_;
+  image_transport::ImageTransport it_;
+  image_transport::CameraPublisher pub_rgb_;
 
- public:
- 
- 	Sensor2D(ros::NodeHandle nh_camera, 
- 					ros::NodeHandle nh_private, 
- 					std::string nodeName);
- 	virtual ~Sensor2D();
- 	
-	void init();
-	void stop();
-	void getFrame();
+  std::string address_;
 
-	};
+  GstElement *pipeline_;
+  GstElement *appsink;
+  GMainLoop *loop;
+
+  //boost::thread* streaming;
+
+public:
+
+  Sensor2D(ros::NodeHandle nh_camera,
+           ros::NodeHandle nh_private,
+           std::string nodeName);
+  virtual ~Sensor2D();
+
+  void init();
+  void stop();
+  void getFrame();
+
+};
 }
 
 #endif

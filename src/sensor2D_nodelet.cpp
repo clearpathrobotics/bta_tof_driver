@@ -28,7 +28,7 @@
  *
  * @section intro_sec Introduction
  *
- * This software defines a interface for working with all ToF cameras from 
+ * This software defines a interface for working with all ToF cameras from
  * Bluetechnix GmbH supported by their API.
  *
  * @section install_sec Installation
@@ -44,35 +44,37 @@
 #include <nodelet/nodelet.h>
 #include <boost/thread.hpp>
 
-namespace bta_tof_driver {
+namespace bta_tof_driver
+{
 
-	class Sensor2DNodelet : public nodelet::Nodelet {
+class Sensor2DNodelet : public nodelet::Nodelet
+{
 
-	public:
-		 Sensor2DNodelet() : 
-		 	nodelet::Nodelet(),
-		 	lp_(NULL),
-		 	stream_thread_(NULL)
-		 {
-		 };
-		 
-		virtual ~Sensor2DNodelet() 
-		{
-			stream_thread_->join();
-		};
-	
-	private:
-		virtual void onInit() 
-		{
-			NODELET_WARN_STREAM("Initializing nodelet..." << getName());
-		
-			lp_.reset(new bta_tof_driver::Sensor2D(getNodeHandle(), getPrivateNodeHandle(), getName()));
-			stream_thread_.reset(new boost::thread(boost::bind(&Sensor2D::init, lp_.get())));
-		};
-			boost::scoped_ptr<bta_tof_driver::Sensor2D> lp_;
-			boost::scoped_ptr<boost::thread> stream_thread_;
-	};
-	
+public:
+  Sensor2DNodelet() :
+    nodelet::Nodelet(),
+    lp_(NULL),
+    stream_thread_(NULL)
+  {
+  };
+
+  virtual ~Sensor2DNodelet()
+  {
+    stream_thread_->join();
+  };
+
+private:
+  virtual void onInit()
+  {
+    NODELET_WARN_STREAM("Initializing nodelet..." << getName());
+
+    lp_.reset(new bta_tof_driver::Sensor2D(getNodeHandle(), getPrivateNodeHandle(), getName()));
+    stream_thread_.reset(new boost::thread(boost::bind(&Sensor2D::init, lp_.get())));
+  };
+  boost::scoped_ptr<bta_tof_driver::Sensor2D> lp_;
+  boost::scoped_ptr<boost::thread> stream_thread_;
+};
+
 }
 
 #include <pluginlib/class_list_macros.h>
