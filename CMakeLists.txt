@@ -11,7 +11,7 @@ message (STATUS "\t BTA_ETH: " ${BTA_ETH})
 message (STATUS "\t BTA_P100: " ${BTA_P100})
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-   set(CMAKE_BUILD_TYPE Release CACHE STRING "build type default set to Release to improve performance" FORCE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "build type default set to Release to improve performance" FORCE)
 endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 
 MESSAGE(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
@@ -23,9 +23,9 @@ find_package(bta REQUIRED)
 find_package(OpenCV REQUIRED COMPONENTS core imgproc)
 
 if (2DSENSOR)
-	find_package(GStreamer REQUIRED )
-	find_package(GLIB REQUIRED)
-	find_package(GObject REQUIRED)
+  find_package(GStreamer REQUIRED )
+  find_package(GLIB REQUIRED)
+  find_package(GObject REQUIRED)
 endif ()
 #find_package(Boost REQUIRED COMPONENTS system thread)
 
@@ -80,7 +80,7 @@ include_directories(include
 
 add_library(${PROJECT_NAME} src/${PROJECT_NAME}.cpp)
 target_link_libraries(${PROJECT_NAME} turbojpeg ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg) 
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg)
 
 add_library(BtaRosDriverNodelet src/${PROJECT_NAME}_nodelet.cpp)
 target_link_libraries(BtaRosDriverNodelet ${PROJECT_NAME} turbojpeg ${OpenCV_LIBRARIES} ${catkin_LIBRARIES} ${bta_LIBRARIES})
@@ -89,37 +89,37 @@ add_executable(bta_tof_driver_node src/bta_tof_driver_node.cpp)
 target_link_libraries(bta_tof_driver_node ${PROJECT_NAME} ${bta_LIBRARIES})
 
 if (2DSENSOR)
-	include_directories(include
-	  ${GSTREAMER_INCLUDE_DIRS} 
-	  ${GSTREAMER_APP_INCLUDE_DIRS} 
-	  ${GLIB_INCLUDE_DIRS} 
-	  ${GOBJECT_INCLUDE_DIRS}
-	)
+  include_directories(include
+    ${GSTREAMER_INCLUDE_DIRS}
+    ${GSTREAMER_APP_INCLUDE_DIRS}
+    ${GLIB_INCLUDE_DIRS}
+    ${GOBJECT_INCLUDE_DIRS}
+  )
 
-	add_library(sensor2d
-	src/sensor2D.cpp
-	)
-	target_link_libraries(sensor2d 
-		sensor2d 
-		${GOBJECT_LIBRARIES} 
-		${GSTREAMER_LIBRARIES} 
-		${GSTREAMER_APP_LIBRARIES} 
-		${GLIB_LIBRARIES} 
-		${catkin_LIBRARIES} 
-	)
+  add_library(sensor2d
+  src/sensor2D.cpp
+  )
+  target_link_libraries(sensor2d
+    sensor2d
+    ${GOBJECT_LIBRARIES}
+    ${GSTREAMER_LIBRARIES}
+    ${GSTREAMER_APP_LIBRARIES}
+    ${GLIB_LIBRARIES}
+    ${catkin_LIBRARIES}
+  )
 
-	add_library(Sensor2DNodelet
-	src/sensor2D_nodelet.cpp
-	)
-	target_link_libraries(Sensor2DNodelet 
-		sensor2d 
-		${catkin_LIBRARIES} 
-		${Boost_LIBRARIES} 
-	)
+  add_library(Sensor2DNodelet
+  src/sensor2D_nodelet.cpp
+  )
+  target_link_libraries(Sensor2DNodelet
+    sensor2d
+    ${catkin_LIBRARIES}
+    ${Boost_LIBRARIES}
+  )
 
-	add_executable(sensor2d_node src/sensor2d_node.cpp)
+  add_executable(sensor2d_node src/sensor2d_node.cpp)
 
-	target_link_libraries(sensor2d_node sensor2d ${catkin_LIBRARIES} )
+  target_link_libraries(sensor2d_node sensor2d ${catkin_LIBRARIES} )
 endif ()
 
 
@@ -157,20 +157,6 @@ endif ()
  )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-	install(FILES nodelet_plugins.xml
-		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-	)
-
-
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_sentis_m100.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+  install(FILES nodelet_plugins.xml
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  )

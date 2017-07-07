@@ -64,9 +64,10 @@ BtaRos::BtaRos(ros::NodeHandle nh_camera,
   ros::console::notifyLoggerLevelsChanged();
   }*/
 
-  nh_private_.param<std::string> ("frame_id_camera", frame_id_camera_, "camera");
-  nh_private_.param<std::string> ("frame_id_cloud", frame_id_cloud_, "cloud");
-  nh_private_.param<std::string> ("frame_id_amplitudes", frame_id_amplitudes_, "amplitudes");
+  nh_private_.param<std::string> ("camera_frame", frame_id_camera_, "camera");
+  nh_private_.param<std::string> ("cloud_frame", frame_id_cloud_, "cloud");
+  nh_private_.param<std::string> ("amplitudes_frame", frame_id_amplitudes_, "amplitudes");
+  nh_private_.param<std::string> ("camera_info_url", camera_info_url_, "");
 
 
   transformStamped.header.stamp = ros::Time::now();
@@ -722,18 +723,14 @@ int BtaRos::initialize()
   {
     // Advertise all published topics
     cim_tof_.setCameraName(nodeName_);
-    if (cim_tof_.validateURL(
-          /*camera_info_url_*/"package://bta_tof_driver/calib.yml"))
+    if (cim_tof_.validateURL(camera_info_url_))
     {
-      cim_tof_.loadCameraInfo("package://bta_tof_driver/calib.yml");
-      ROS_INFO_STREAM("Loaded camera calibration from " <<
-                      "package://bta_tof_driver/calib.yml");
+      cim_tof_.loadCameraInfo(camera_info_url_);
+      ROS_INFO_STREAM("Loaded camera calibration from " << camera_info_url_);
     }
     else
     {
-      ROS_WARN_STREAM("Camera info at: " <<
-                      "package://bta_tof_driver/calib.yml" <<
-                      " not found. Using an uncalibrated config_.");
+      ROS_WARN_STREAM("Camera info at: " << camera_info_url_ << " not found. Using an uncalibrated config_.");
     }
 
     pub_amp_ = it_.advertiseCamera(nodeName_ + "/tof_camera/image_raw", 1);
@@ -759,4 +756,3 @@ int BtaRos::initialize()
   return 0;
 }
 }
-

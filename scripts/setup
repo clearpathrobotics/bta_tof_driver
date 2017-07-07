@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo ""
+echo "This script installs the needed SDK and udev rules.
+echo ""
+
+# Install the SDK
+echo "Installing SDK."
+wget http://datasheets.bluetechnix.at/goto/BltTofApi/v2.1/binaries/BltTofApi_v2.1.0_Win_x86_x64_Lin_x64_Armhf.zip
+unzip BltTofApi*
+cd BltTofApi*
+sudo mkdir -p /usr/include/libbta
+sudo cp inc/bta* /usr/include/libbta/
+sudo cp lib/Lin_x64/libbta.so /usr/lib/
+cd ..
+rm -rf BltTofApi*
+
+# udev rule
+echo "Installing udev."
+sudo cp `rospack find bta_tof_driver`/udev/61-bta.rules /etc/udev/rules.d
+echo "Restarting udev."
+sudo service udev reload
+sudo service udev restart
+
+echo "All done!"

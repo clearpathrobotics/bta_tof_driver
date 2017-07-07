@@ -8,17 +8,17 @@ message( BTA_ETH:  ${BTA_ETH} )
 message( BTA_P100:  ${BTA_P100} )
 
 FIND_PATH(bta_INCLUDE_DIR NAMES bta.h
- 	PATHS
-        ${PROJECT_SOURCE_DIR}/BltTofApi/inc
-	/usr/local/include/libbta/
-        /usr/include/libbta/
-        ../include/
-        ../inc/
-        #Bta/inc/
-        #bta_sensor/Bta/inc
-        ./
- 	NO_DEFAULT_PATH
-	DOC "Include directory of bta"
+   PATHS
+    ${PROJECT_SOURCE_DIR}/BltTofApi/inc
+    /usr/local/include/libbta/
+    /usr/include/libbta/
+    ../include/
+    ../inc/
+    #Bta/inc/
+    #bta_sensor/Bta/inc
+    ./
+   NO_DEFAULT_PATH
+  DOC "Include directory of bta"
 )
 
 set(ARCH_DIR "x86")
@@ -36,7 +36,7 @@ message( ARCH_DIR:  ${ARCH_DIR} )
 
 set (bta_name bta)
 if (WIN32)
-	set (bta_name BltTofApi)
+  set (bta_name BltTofApi)
 endif()
 
 if( BTA_ETH)
@@ -55,26 +55,26 @@ if( BTA_P100 )
     endif()
 endif()
 
-	
+
 find_library(bta_LIBRARY NAMES ${bta_name}
   PATHS
-        ${PROJECT_SOURCE_DIR}/BltTofApi/lib/Lin_x64/
-        /usr/lib/
-        /usr/local/lib/
-		../windows/lib/${ARCH_DIR}/
-		../Bta/${ARCH_DIR}/
-		Bta/lib/BtaEth/${ARCH_DIR}/
-		Bta/lib/Bta/${ARCH_DIR}/
-		Bta/lib/BtaP100/${ARCH_DIR}/
-	NO_DEFAULT_PATH
-	DOC "Library binary"
+    ${PROJECT_SOURCE_DIR}/BltTofApi/lib/Lin_x64/
+    /usr/lib/
+    /usr/local/lib/
+    ../windows/lib/${ARCH_DIR}/
+    ../Bta/${ARCH_DIR}/
+    Bta/lib/BtaEth/${ARCH_DIR}/
+    Bta/lib/Bta/${ARCH_DIR}/
+    Bta/lib/BtaP100/${ARCH_DIR}/
+  NO_DEFAULT_PATH
+  DOC "Library binary"
 )
 #set(bta_LIBRARIES ${bta_eth_LIBRARY} )
 
 if (BTA_ETH)
-	add_definitions(-DBTA_ETH)
+  add_definitions(-DBTA_ETH)
 elseif (BTA_P100)
-	add_definitions(-DBTA_P100)
+  add_definitions(-DBTA_P100)
 endif()
 
 set(bta_LIBRARIES ${bta_LIBRARY})
@@ -91,5 +91,3 @@ find_package_handle_standard_args(bta  DEFAULT_MSG
                                   bta_LIBRARIES bta_INCLUDE_DIRS)
 
 mark_as_advanced(bta_INCLUDE_DIRS bta_LIBRARIES)
-
-

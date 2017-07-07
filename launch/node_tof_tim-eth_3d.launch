@@ -1,4 +1,4 @@
-<!-- 
+<!--
 	Node launch file for bta_tof_driver.
 
 	See http://www.ros.org/wiki/bta_tof_driver for more information.
@@ -7,13 +7,13 @@
 
   <arg name="rviz" default="0" />
   <arg name="rqt" default="0" />
-  
+
   <node pkg="bta_tof_driver" type="bta_tof_driver_node" name="bta_tof_driver_1"
         args="" required="true" output="screen" >
         <rosparam command="load" file="$(find bta_tof_driver)/launch/bta_tim-eth_3d.yaml" />
   </node>
-  
-  <group if="$(arg stage)">
+
+  <group if="$(arg rviz)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bta_tof_driver)/launch/rvizConfig_tof.rviz" />
   </group>
   <group if="$(arg rqt)">
