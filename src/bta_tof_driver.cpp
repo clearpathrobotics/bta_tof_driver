@@ -306,7 +306,7 @@ void BtaRos::publishData()
   {
     sensor_msgs::ImagePtr dis(new sensor_msgs::Image);
     dis->header.seq = frame->frameCounter;
-    dis->header.stamp.sec = frame->timeStamp;
+    dis->header.stamp = ros::Time::now();
     dis->height = yRes;
     dis->width = xRes;
     dis->encoding = getDataType(dataFormat);
@@ -327,7 +327,7 @@ void BtaRos::publishData()
   {
     sensor_msgs::ImagePtr amp(new sensor_msgs::Image);
     amp->header.seq = frame->frameCounter;
-    amp->header.stamp.sec = frame->timeStamp;
+    amp->header.stamp = ros::Time::now();
     amp->height = yRes;
     amp->width = xRes;
     amp->encoding = getDataType(amDataFormat);
@@ -425,7 +425,7 @@ void BtaRos::publishData()
     //pcl::toROSMsg(_cloud, *_xyz);
 
     _xyz->header.seq = frame->frameCounter;
-    _xyz->header.stamp.sec = frame->timeStamp;
+    _xyz->header.stamp = ros::Time::now();
 
     //Keeping until resolving problem with rviz
     /*
